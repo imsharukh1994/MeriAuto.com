@@ -1,25 +1,183 @@
-INSERT INTO user (name, email, password, role, isPremium, isVerified) VALUES 
-('John Doe', 'john@example.com', '$2a$10$EIXZ5Q1t1h5Z1g5Z5g5Z5O', 'BUYER', false, true),
-('Jane Smith', 'jane@example.com', '$2a$10$EIXZ5Q1t1h5Z1g5Z5g5Z5O', 'SELLER', true, true),
-('Admin User', 'admin@example.com', '$2a$10$EIXZ5Q1t1h5Z1g5Z5g5Z5O', 'ADMIN', false, true);
+package com.meriauto.entity;
 
-INSERT INTO car (brand, model, year, price, description, imagePath, city, isFeatured, seller_id) VALUES 
-('Toyota', 'Camry', 2020, 24000, 'A reliable sedan with great fuel efficiency.', '/images/toyota_camry.jpg', 'New York', true, 2),
-('Honda', 'Civic', 2019, 22000, 'Sporty and compact, perfect for city driving.', '/images/honda_civic.jpg', 'Los Angeles', false, 2),
-('Ford', 'Mustang', 2021, 35000, 'A classic American muscle car.', '/images/ford_mustang.jpg', 'Chicago', true, 2);
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
-INSERT INTO message (sender_id, receiver_id, message, timestamp) VALUES 
-(1, 2, 'Is the Toyota Camry still available?', NOW()),
-(2, 1, 'Yes, it is available. Feel free to ask any questions.', NOW());
+@Entity
+@Table(name = "user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-INSERT INTO subscription (user_id, amount, status, date) VALUES 
-(1, 9.99, 'PAID', NOW()),
-(2, 19.99, 'PAID', NOW());
+    private String name;
 
-INSERT INTO ad (title, imageUrl, link, isActive) VALUES 
-('Buy a Car Today!', '/images/ad1.jpg', 'https://example.com/ad1', true),
-('Special Offer on SUVs!', '/images/ad2.jpg', 'https://example.com/ad2', true);
+    @Column(unique = true, nullable = false)
+    private String email;
 
-INSERT INTO saved_car (user_id, car_id) VALUES 
-(1, 1),
-(1, 2);
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    private boolean isPremium;
+    private boolean isVerified;
+
+    // One user can sell many cars
+    @OneToMany(mappedBy = "seller")
+    private List<Car> cars;
+
+    // Messages sent
+    @OneToMany(mappedBy = "sender")
+    private List<Message> sentMessages;
+
+    // Messages received
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> receivedMessages;
+
+    // Subscriptions
+    @OneToMany(mappedBy = "user")
+    private List<Subscription> subscriptions;
+
+    // Saved cars
+    @OneToMany(mappedBy = "user")
+    private List<SavedCar> savedCars;
+
+    // Getters and setters...
+
+    public enum Role {
+        BUYER, SELLER, ADMIN
+    }
+}
+
+package com.meriauto.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "car")
+public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String brand;
+    private String model;
+    private int year;
+    private double price;
+    private String description;
+    private String imagePath;
+    private String city;
+    private boolean isFeatured;
+
+    // Many cars can belong to one seller (User)
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User seller;
+
+    // Getters and setters...
+}
+
+package com.meriauto.entity;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "message")
+public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Sender of the message
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
+
+    // Receiver of the message
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
+
+    private String message;
+
+    private LocalDateTime timestamp;
+
+    // Getters and setters...
+}
+
+package com.meriauto.entity;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "subscription")
+public class Subscription {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Many subscriptions can belong to one user
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private double amount;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    private LocalDateTime date;
+
+    public enum Status {
+        PAID, PENDING
+    }
+
+    // Getters and setters...
+}
+
+package com.meriauto.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "ad")
+public class Ad {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+    private String imageUrl;
+    private String link;
+    private boolean isActive;
+
+    // Getters and setters...
+}
+
+package com.meriauto.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "saved_car")
+public class SavedCar {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // The user who saved the car
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // The car that was saved
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
+
+    // Getters and setters...
+}
