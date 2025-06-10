@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Detail - Meriauto</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Car Detail</h1>
+        <div id="car-detail">
+            <img id="car-image" src="" alt="Car Image">
+            <h2 id="car-brand-model"></h2>
+            <p id="car-year-price"></p>
+            <p id="car-description"></p>
+            <p id="car-city"></p>
+            <button id="contact-seller" style="display:none;">Contact Seller</button>
+            <button id="save-car">Save to Favorites</button>
+        </div>
+        <div id="messages">
+            <h3>Messages</h3>
+            <div id="message-list"></div>
+            <textarea id="message-input" placeholder="Type your message here..."></textarea>
+            <button id="send-message">Send</button>
+        </div>
+    </div>
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

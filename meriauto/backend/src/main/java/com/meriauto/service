@@ -1,0 +1,111 @@
+package com.meriauto.service;
+
+import com.meriauto.entity.Car;
+import com.meriauto.entity.Message;
+import com.meriauto.entity.SavedCar;
+import com.meriauto.entity.Subscription;
+import com.meriauto.entity.User;
+import com.meriauto.repository.CarRepository;
+import com.meriauto.repository.MessageRepository;
+import com.meriauto.repository.SavedCarRepository;
+import com.meriauto.repository.SubscriptionRepository;
+import com.meriauto.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CarService {
+
+    @Autowired
+    private CarRepository carRepository;
+
+    public List<Car> getAllCars() {
+        return carRepository.findAll();
+    }
+
+    public Car addCar(Car car) {
+        return carRepository.save(car);
+    }
+
+    public Car updateCar(Car car) {
+        return carRepository.save(car);
+    }
+
+    public void deleteCar(Long id) {
+        carRepository.deleteById(id);
+    }
+
+    public List<Car> searchCars(String brand, String model, String city, Double price) {
+        return carRepository.findByBrandOrModelOrCityOrPrice(brand, model, city, price);
+    }
+}
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public User registerUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public void verifyUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setVerified(true);
+            userRepository.save(user);
+        }
+    }
+}
+
+@Service
+public class MessageService {
+
+    @Autowired
+    private MessageRepository messageRepository;
+
+    public Message sendMessage(Message message) {
+        return messageRepository.save(message);
+    }
+
+    public List<Message> getMessagesBetweenUsers(Long senderId, Long receiverId) {
+        return messageRepository.findBySenderIdAndReceiverId(senderId, receiverId);
+    }
+}
+
+@Service
+public class SubscriptionService {
+
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
+
+    public Subscription createSubscription(Subscription subscription) {
+        return subscriptionRepository.save(subscription);
+    }
+
+    public List<Subscription> getUserSubscriptions(Long userId) {
+        return subscriptionRepository.findByUserId(userId);
+    }
+}
+
+@Service
+public class SavedCarService {
+
+    @Autowired
+    private SavedCarRepository savedCarRepository;
+
+    public SavedCar saveCar(SavedCar savedCar) {
+        return savedCarRepository.save(savedCar);
+    }
+
+    public List<SavedCar> getSavedCarsByUser(Long userId) {
+        return savedCarRepository.findByUserId(userId);
+    }
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meriauto - Home</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Meriauto</h1>
+        <nav>
+            <ul>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="saved-cars.html">Saved Cars</a></li>
+                <li><a href="subscription.html">Subscription</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="search">
+            <input type="text" id="searchInput" placeholder="Search by brand, model, city...">
+            <button id="searchButton">Search</button>
+        </section>
+        <section id="featuredCars">
+            <h2>Featured Cars</h2>
+            <div id="carList">
+                <!-- Car items will be dynamically inserted here -->
+            </div>
+        </section>
+        <section id="adsBanner">
+            <h2>Advertisements</h2>
+            <div id="adsList">
+                <!-- Ads will be dynamically inserted here -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Meriauto. All rights reserved.</p>
+    </footer>
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+</body>
+</html>

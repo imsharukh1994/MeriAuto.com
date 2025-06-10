@@ -1,0 +1,34 @@
+package com.meriauto.repository;
+
+import com.meriauto.entity.Car;
+import com.meriauto.entity.Message;
+import com.meriauto.entity.SavedCar;
+import com.meriauto.entity.Subscription;
+import com.meriauto.entity.User;
+import com.meriauto.entity.Ad;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+
+@Repository
+public interface CarRepository extends JpaRepository<Car, Long> {
+}
+
+@Repository
+public interface MessageRepository extends JpaRepository<Message, Long> {
+}
+
+@Repository
+public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
+}
+
+@Repository
+public interface AdRepository extends JpaRepository<Ad, Long> {
+}
+
+@Repository
+public interface SavedCarRepository extends JpaRepository<SavedCar, Long> {
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Subscription Plans</h1>
+        <p>Select a subscription plan that suits you:</p>
+        <div class="subscription-plans">
+            <div class="plan">
+                <h2>Basic Plan</h2>
+                <p>Price: $10/month</p>
+                <p>Features: Access to basic features.</p>
+                <button onclick="subscribe('basic')">Subscribe</button>
+            </div>
+            <div class="plan">
+                <h2>Premium Plan</h2>
+                <p>Price: $20/month</p>
+                <p>Features: Access to all features including seller contact info.</p>
+                <button onclick="subscribe('premium')">Subscribe</button>
+            </div>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+    <script src="../js/main.js"></script>
+    <script>
+        function subscribe(plan) {
+            // Mock subscription logic
+            document.getElementById('message').innerText = `You have subscribed to the ${plan} plan!`;
+        }
+    </script>
+</body>
+</html>
