@@ -1,5 +1,0 @@
-package com.meriauto.util;
-
-public class Utility {
-    // This class can contain utility methods that assist with various functionalities in the application.
-}
